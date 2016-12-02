@@ -37,7 +37,7 @@ $(document).ready(function() {
   };
 
 // Starts on C3.
-  var fullScale = [
+   fullScale = [
       130.81,
       138.59,
       146.83,
@@ -78,6 +78,13 @@ $(document).ready(function() {
     return key
   };
 
+  var pickAKey = function(){
+    $("#keychoice").on("submit", function(event){
+      event.preventDefault()
+    
+    })
+  };
+  
   
   var currentKey = findMajorKey(0)
 
@@ -89,6 +96,8 @@ $(document).ready(function() {
   listenOn("#a", currentKey[5], "k")
   listenOn("#b", currentKey[6], "l")
   listenOn("#c5",currentKey[7], ";")
+
+
 
   
 });
