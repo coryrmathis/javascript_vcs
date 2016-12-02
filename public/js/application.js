@@ -5,6 +5,7 @@ var Instrument = function(){
 
   var setupNote = function(frequency){
     var oscillator = context.createOscillator()
+    // oscillator.type = "sawtooth"
     oscillator.frequency.value = frequency
     var gainNode = context.createGain()
     oscillator.connect(gainNode)
@@ -15,9 +16,10 @@ var Instrument = function(){
   var playNote = function(noteName){
     noteName.gainNode.gain.value = 1
     noteName.oscillator.start()
-    for (var i = .9 ; i >= 0; i -= .1) {
-      noteName.gainNode.gain.setValueAtTime(i, noteName.context.currentTime + .2)
-    }
+    noteName.gainNode.gain.linearRampToValueAtTime(0, context.currentTime + .5)
+    // for (var i = .9 ; i >= 0; i -= .1) {
+    //   noteName.gainNode.gain.setValueAtTime(i, noteName.context.currentTime + .2)
+    // }
   };
 
   var listenOn = function(id, frequency, letterKey){
@@ -82,15 +84,6 @@ var Instrument = function(){
     return key
   };  
   
-  // var keyNum = function(){
-  //   $("#keychoice").on("submit", function(event){
-  //     event.preventDefault()
-  //     return $(".key:checked").val()
-
-  //   })
-  // }
-
-  // var currentKey = findMajorKey(keyNum)
 
   this.start = function(keyNum){
     var currentKey = findMajorKey(keyNum)
@@ -121,8 +114,7 @@ currentInstrument.start(0)
 
 
 $(document).ready(function(){
-  $("#keychoice").on("submit", function(event){
-    event.preventDefault()
+  $(".majorkey").on("click", function(event){
     keyNum = parseInt($("#keychoice input[type='radio']:checked").val())
     currentInstrument.start(keyNum)
   })
