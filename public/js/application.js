@@ -1,5 +1,13 @@
- 
-$(document).ready(function() {
+
+$(document).ready(function(){
+  $("#keychoice").on("submit", function(event){
+    event.preventDefault()
+    keyNum = parseInt($("#keychoice input[type='radio']:checked").val())
+    new Instrument(keyNum)
+})
+
+
+var Instrument = function(keyNum){
 
   var context = new (window.AudioContext || window.webkitAudioContext)();
 
@@ -23,21 +31,25 @@ $(document).ready(function() {
   var listenOn = function(id, frequency, letterKey){
       
     $(id).on("click", function(event){
-      // var middleC = setupNote(frequency)
       var note = setupNote(frequency)
       playNote(note)
+      // $(id).animate({ opacity: 0.2 }, 1200, 'linear')
+
     })
 
     $(document).keyup(function(event){
       if (event.key == letterKey){
         var note = setupNote(frequency)
         playNote(note)
+        $(id).animate({ opacity: 0.2 }, 100, 'linear', function(){
+          $(this).animate({ opacity: 1 }, 100, 'linear')
+        })
      };
     });
   };
 
 // Starts on C3.
-   fullScale = [
+  var fullScale = [
       130.81,
       138.59,
       146.83,
@@ -76,18 +88,19 @@ $(document).ready(function() {
     key.push(fullScale[firstNoteIndex + 11])
     key.push(fullScale[firstNoteIndex + 12])
     return key
-  };
-
-  var pickAKey = function(){
-    $("#keychoice").on("submit", function(event){
-      event.preventDefault()
-    
-    })
-  };
+  };  
   
-  
-  var currentKey = findMajorKey(0)
+  // var keyNum = function(){
+  //   $("#keychoice").on("submit", function(event){
+  //     event.preventDefault()
+  //     return $(".key:checked").val()
 
+  //   })
+  // }
+
+  var currentKey = findMajorKey(keyNum)
+
+  
   listenOn("#c", currentKey[0], "a")
   listenOn("#d", currentKey[1], "s")
   listenOn("#e", currentKey[2], "d")
@@ -97,7 +110,13 @@ $(document).ready(function() {
   listenOn("#b", currentKey[6], "l")
   listenOn("#c5",currentKey[7], ";")
 
+}
 
-
-  
+// $(document).ready(function(){
+//   $("#keychoice").on("submit", function(evet)n{
+//     event.preventDefault()
+//     currentInstrument = new Instrument($("#keychoice input[type='radio']:checked").val())
+    
+//   });
 });
+
