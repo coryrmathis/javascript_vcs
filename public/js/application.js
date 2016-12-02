@@ -1,13 +1,5 @@
 
-$(document).ready(function(){
-  $("#keychoice").on("submit", function(event){
-    event.preventDefault()
-    keyNum = parseInt($("#keychoice input[type='radio']:checked").val())
-    new Instrument(keyNum)
-})
-
-
-var Instrument = function(keyNum){
+var Instrument = function(){
 
   var context = new (window.AudioContext || window.webkitAudioContext)();
 
@@ -98,25 +90,43 @@ var Instrument = function(keyNum){
   //   })
   // }
 
-  var currentKey = findMajorKey(keyNum)
+  // var currentKey = findMajorKey(keyNum)
 
-  
-  listenOn("#c", currentKey[0], "a")
-  listenOn("#d", currentKey[1], "s")
-  listenOn("#e", currentKey[2], "d")
-  listenOn("#f", currentKey[3], "f")
-  listenOn("#g", currentKey[4], "j")
-  listenOn("#a", currentKey[5], "k")
-  listenOn("#b", currentKey[6], "l")
-  listenOn("#c5",currentKey[7], ";")
+  this.start = function(keyNum){
+    var currentKey = findMajorKey(keyNum)
+
+    $(document).off("keyup")
+    $("#c").off()
+    listenOn("#c", currentKey[0], "a")
+    $("#d").off()
+    listenOn("#d", currentKey[1], "s")
+    $("#e").off()
+    listenOn("#e", currentKey[2], "d")
+    $("#f").off()
+    listenOn("#f", currentKey[3], "f")
+    $("#g").off()
+    listenOn("#g", currentKey[4], "j")
+    $("#a").off()
+    listenOn("#a", currentKey[5], "k")
+    $("#b").off()
+    listenOn("#b", currentKey[6], "l")
+    $("#c5").off()
+    listenOn("#c5",currentKey[7], ";")
+  }
 
 }
 
-// $(document).ready(function(){
-//   $("#keychoice").on("submit", function(evet)n{
-//     event.preventDefault()
-//     currentInstrument = new Instrument($("#keychoice input[type='radio']:checked").val())
-    
-//   });
+var currentInstrument = new Instrument
+currentInstrument.start(0)
+
+
+$(document).ready(function(){
+  $("#keychoice").on("submit", function(event){
+    event.preventDefault()
+    keyNum = parseInt($("#keychoice input[type='radio']:checked").val())
+    currentInstrument.start(keyNum)
+  })
 });
+
+
 
