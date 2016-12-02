@@ -1,3 +1,3 @@
 get "/" do
-  erb :video
+  erb :index
 end
