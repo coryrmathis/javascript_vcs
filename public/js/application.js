@@ -1,5 +1,5 @@
- 
-$(document).ready(function() {
+
+var Instrument = function(){
 
   var context = new (window.AudioContext || window.webkitAudioContext)();
 
@@ -23,21 +23,25 @@ $(document).ready(function() {
   var listenOn = function(id, frequency, letterKey){
       
     $(id).on("click", function(event){
-      // var middleC = setupNote(frequency)
       var note = setupNote(frequency)
       playNote(note)
+      // $(id).animate({ opacity: 0.2 }, 1200, 'linear')
+
     })
 
     $(document).keyup(function(event){
       if (event.key == letterKey){
         var note = setupNote(frequency)
         playNote(note)
+        $(id).animate({ opacity: 0.2 }, 100, 'linear', function(){
+          $(this).animate({ opacity: 1 }, 100, 'linear')
+        })
      };
     });
   };
 
 // Starts on C3.
-   fullScale = [
+  var fullScale = [
       130.81,
       138.59,
       146.83,
@@ -76,28 +80,53 @@ $(document).ready(function() {
     key.push(fullScale[firstNoteIndex + 11])
     key.push(fullScale[firstNoteIndex + 12])
     return key
-  };
-
-  var pickAKey = function(){
-    $("#keychoice").on("submit", function(event){
-      event.preventDefault()
-    
-    })
-  };
+  };  
   
-  
-  var currentKey = findMajorKey(0)
+  // var keyNum = function(){
+  //   $("#keychoice").on("submit", function(event){
+  //     event.preventDefault()
+  //     return $(".key:checked").val()
 
-  listenOn("#c", currentKey[0], "a")
-  listenOn("#d", currentKey[1], "s")
-  listenOn("#e", currentKey[2], "d")
-  listenOn("#f", currentKey[3], "f")
-  listenOn("#g", currentKey[4], "j")
-  listenOn("#a", currentKey[5], "k")
-  listenOn("#b", currentKey[6], "l")
-  listenOn("#c5",currentKey[7], ";")
+  //   })
+  // }
+
+  // var currentKey = findMajorKey(keyNum)
+
+  this.start = function(keyNum){
+    var currentKey = findMajorKey(keyNum)
+
+    $(document).off("keyup")
+    $("#c").off()
+    listenOn("#c", currentKey[0], "a")
+    $("#d").off()
+    listenOn("#d", currentKey[1], "s")
+    $("#e").off()
+    listenOn("#e", currentKey[2], "d")
+    $("#f").off()
+    listenOn("#f", currentKey[3], "f")
+    $("#g").off()
+    listenOn("#g", currentKey[4], "j")
+    $("#a").off()
+    listenOn("#a", currentKey[5], "k")
+    $("#b").off()
+    listenOn("#b", currentKey[6], "l")
+    $("#c5").off()
+    listenOn("#c5",currentKey[7], ";")
+  }
+
+}
+
+var currentInstrument = new Instrument
+currentInstrument.start(0)
 
 
-
-  
+$(document).ready(function(){
+  $("#keychoice").on("submit", function(event){
+    event.preventDefault()
+    keyNum = parseInt($("#keychoice input[type='radio']:checked").val())
+    currentInstrument.start(keyNum)
+  })
 });
+
+
+
