@@ -38,7 +38,7 @@ var Instrument = function(){
         $(id).animate({ opacity: 0.2 }, 100, 'linear', function(){
           $(this).animate({ opacity: 1 }, 100, 'linear')
         })
-      };
+     };
     });
   };
 
@@ -88,7 +88,7 @@ var Instrument = function(){
   this.start = function(keyNum){
     var currentKey = findMajorKey(keyNum)
 
-    $(document).off("keyup")
+    $(document).off("keydown")
     $("#c").off()
     listenOn("#c", currentKey[0], "a")
     $("#d").off()
@@ -120,5 +120,20 @@ $(document).ready(function(){
   })
 });
 
+$(document).ready(function(){
+  $("#keychoice").hide()
+  $("#keybutton").on("click", function(){
+    $(this).hide()
+    $("#keychoice").show()
+  });
+
+
+  $(".majorkey").on("click", function(event){
+    keyNum = parseInt($("#keychoice input[type='radio']:checked").val())
+    currentInstrument.start(keyNum)
+    $("#keychoice").hide()
+    $("#keybutton").show()
+  })
+});
 
 
