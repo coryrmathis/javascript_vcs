@@ -31,14 +31,14 @@ var Instrument = function(){
 
     })
 
-    $(document).keyup(function(event){
+    $(document).keydown(function(event){
       if (event.key == letterKey){
         var note = setupNote(frequency)
         playNote(note)
         $(id).animate({ opacity: 0.2 }, 100, 'linear', function(){
           $(this).animate({ opacity: 1 }, 100, 'linear')
         })
-     };
+      };
     });
   };
 
