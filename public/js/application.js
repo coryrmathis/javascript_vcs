@@ -16,6 +16,7 @@ var Instrument = function(){
   var playNote = function(noteName){
     noteName.gainNode.gain.value = 1
     noteName.oscillator.start()
+    // noteName.gainNode.gain.linearRampToValueAtTime(1, context.currentTime + .3)
     noteName.gainNode.gain.linearRampToValueAtTime(0, context.currentTime + .5)
     // for (var i = .9 ; i >= 0; i -= .1) {
     //   noteName.gainNode.gain.setValueAtTime(i, noteName.context.currentTime + .2)
@@ -30,7 +31,7 @@ var Instrument = function(){
       // $(id).animate({ opacity: 0.2 }, 1200, 'linear')
 
     })
-
+    
     $(document).keydown(function(event){
       if (event.key == letterKey){
         var note = setupNote(frequency)
